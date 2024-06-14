@@ -1,0 +1,106 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Serif+Display:ital@0;1&display=swap");
+
+.NavBarOuter {
+  height: 100%;
+  width: 100%;
+  position: relative;
+  background: linear-gradient(180deg, transparent 100%, rgba(0, 0, 0, 0.3)),
+    linear-gradient(
+      160deg,
+      rgba(20, 20, 20, 0.458) 0.09%,
+      #0e0e0e 50.18%,
+      #1d1d1d94 100.64%
+    );
+  color: #cdcdcd;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.2rem;
+  padding: 20px 70px;
+}
+
+.NavBar {
+  width: 1320px;
+  color: #cdcdcd;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  font-family: "DM Serif Display", serif;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.2rem;
+  align-items: center;
+}
+
+.NavBar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, #1e2b2b, #56b0d3, #1e2b2b);
+}
+
+.NavBrand {
+  font-family: "Abril Fatface", serif;
+  font-size: 2.5rem;
+}
+
+.NavBar a {
+  text-decoration: none;
+  color: #cdcdcd;
+}
+
+.NavBar .userImg {
+  height: 30px;
+  cursor: pointer;
+}
+
+.NavBar .authDiv {
+  z-index: 2;
+  display: flex;
+  gap: 15px;
+  opacity: 0;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  border-radius: 20px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.898)),
+    linear-gradient(
+      160deg,
+      rgba(20, 20, 20, 0.781) 0.09%,
+      #0e0e0e 50.18%,
+      #1d1d1de1 100.64%
+    );
+  border: 1px solid rgba(255, 255, 255, 0.19);
+  height: fit-content;
+  padding: 20px 40px;
+  position: absolute;
+  top: 50px;
+  right: -70px;
+  transition: opacity 0.3s ease-in-out;
+}
+
+.authDiv a{
+  transition: all 0.3s;
+}
+
+.NavAccount .userImgContainer {
+  position: relative;
+}
+
+.authDiv.show {
+  opacity: 1;
+}
+
+.authDiv.hide {
+  opacity: 0;
+}
+
+.authDiv a:hover {
+  color: #76cff2;
+}

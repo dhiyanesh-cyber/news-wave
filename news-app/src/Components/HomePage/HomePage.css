@@ -1,0 +1,99 @@
+@import url("https://fonts.googleapis.com/css2?family=Abril+Fatface&family=DM+Serif+Display:ital@0;1&display=swap");
+
+.TechNewsTitle {
+  padding: 20px 0;
+  color: #cdcdcd;
+  font-family: "DM Serif Display", serif;
+}
+
+.HomeContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  margin-top: 60px;
+  width: 1320px !important;
+  padding: 0 !important;
+
+  /* margin-right: auto;
+  margin-left: auto; */
+
+  @media screen and (min-width: 992px) and (max-width: 1439px) {
+    max-width: 1320px !important;
+    padding: 0 !important;
+    /* margin: 0 80px !important; */
+    width: auto !important;
+  }
+
+  @media screen and (max-width: 991px) {
+    max-width: 959px !important;
+    margin: 0 16px !important;
+    padding: 0 !important;
+    width: auto !important;
+  }
+}
+
+.gradient-cards {
+  max-width: 1175px !important;
+  display: flex;
+  flex-direction: row;
+  flex: none;
+  overflow-x: scroll;
+  gap: 32px;
+  margin: 30px;
+  @media screen and (max-width: 991px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.gradient-cards::-webkit-scrollbar {
+  display: none;
+}
+
+hr {
+  width: 320px;
+  margin: 70px 0 10px 0;
+  border: 1px solid #3da077;
+  background-color: #3da077;
+  border-radius: 7px 7px 7px 7px;
+  height: 2px;
+}
+
+.Previmg {
+  cursor: pointer;
+  transform: rotate(180deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid #ffffff3b; */
+  padding: 10px;
+  border-radius: 50%;
+  background: linear-gradient(71deg, #19485b, #36819f, #35809e);
+}
+
+.Previmg img,
+.Nextimg img {
+  height: 20px;
+}
+
+.Nextimg {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid #ffffff3b; */
+  padding: 10px;
+  border-radius: 50%;
+  background: linear-gradient(71deg, #19485b, #36819f, #35809e);
+}
+
+.Carousel {
+  max-width: 1320px !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
