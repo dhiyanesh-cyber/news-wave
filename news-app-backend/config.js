@@ -1,5 +1,8 @@
 import mongoose from 'mongoose';
-const connect = mongoose.connect('mongodb+srv://dhiyaneshsasi03:asdfghjkl03@news-wave.cmhqbkz.mongodb.net/news-wave?retryWrites=true&w=majority&appName=news-wave')
+import dotenv from 'dotenv'
+dotenv.config();
+
+const connect = mongoose.connect(process.env.MONGO_URL)
 
 
 
@@ -22,6 +25,7 @@ const UserSchema = new mongoose.Schema({
     },
     email: {
         type:String,
+        unique: true,
         required: true
     },
     password: {

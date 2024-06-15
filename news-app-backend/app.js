@@ -65,7 +65,6 @@ app.get('/topTechHeadlines/:category/:country', (req, res) => {
 app.post('/register', async (req, res) => {
   try {
     const data = req.body;
-    console.log(data);
     const existingUser = await collection.findOne({email: data.email})
 
     if(existingUser){

@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "../Authentication.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import validator from "validator";
 
 const Register = () => {
   const [userData, setUserData] = useState({
@@ -21,8 +22,22 @@ const Register = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    console.log("user Data: ", JSON.stringify(userData));
-    if (userData.password === userData.confirmPassword) {
+    if (
+      !userData.name ||
+      !userData.email ||
+      !userData.password ||
+      !userData.confirmPassword
+    ) {
+      alert("Details not entered !!");
+    } else if (!validateEmail()) {
+      alert("Please enter a valid email address.");
+    } else if (!validatePassword()) {
+      alert(
+        "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, and one number.",
+      );
+    } else if (userData.password !== userData.confirmPassword) {
+      alert("Password does not match.");
+    } else {
       axios
         .post(
           "http://localhost:3000/register",
@@ -53,9 +68,31 @@ const Register = () => {
             alert("An error occurred while processing the request.");
           }
         });
-    } else {
-      alert("Password does not match.");
     }
+  }
+
+  function validateEmail() {
+    if (!validator.isEmail(userData.email)) {
+      return false;
+    }
+    return true;
+  }
+
+  function validatePassword() {
+    const password = userData.password;
+    if (password.length < 8) {
+      return false;
+    }
+    if (!/[a-z]/.test(password)) {
+      return false;
+    }
+    if (!/[A-Z]/.test(password)) {
+      return false;
+    }
+    if (!/\d/.test(password)) {
+      return false;
+    }
+    return true;
   }
 
   return (
