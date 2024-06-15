@@ -3,10 +3,12 @@ import express, { urlencoded } from 'express';
 import cors from 'cors';
 import collection from './config.js';
 import bcrypt from 'bcrypt';
+import dotenv from 'dotenv';
+dotenv.config();
 
 
-const newsapi = new NewsAPI('e0e59120e8154bac841bcdfea3cde629');
-
+const newsApiKey = process.env.NEWS_API;
+const newsapi = new NewsAPI(newsApiKey);
 
 const app = express();
 app.use(express.json()); 
