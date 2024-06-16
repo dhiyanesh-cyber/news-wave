@@ -36,6 +36,14 @@ function filterArticleWithoutDes(article) {
 
 
 
+app.get('/getUserDetails', (req,res) => {
+  try {
+    res.send("Got res")
+  } catch (error) {
+    console.log("Error : ", error);
+  }
+})
+
 
 app.get('/topTechHeadlines/:category/:country', (req, res) => {
   try {

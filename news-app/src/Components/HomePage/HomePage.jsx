@@ -7,8 +7,11 @@ const HomePage = () => {
   const [techNews, setTechNews] = useState([]);
   const [sportsNews, setSportsNews] = useState([]);
   const [entertainmentNews, setEntertainmentNews] = useState([]);
+  const [userDetails, setUserDetails] = useState({});
 
   useEffect(() => {
+    
+
     axios
       .get("http://localhost:3000/topTechHeadlines/technology/us")
       .then((res) => {
