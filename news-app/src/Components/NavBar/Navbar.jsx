@@ -3,8 +3,6 @@ import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 const Navbar = () => {
-  const [accClicked, setAccClicked] = useState(false);
-
   return (
     <div className="NavBarOuter">
       <div className="NavBar">
@@ -14,16 +12,8 @@ const Navbar = () => {
         <div className="NavBrand">News Wave</div>
         <div className="NavAccount">
           <div className="userImgContainer">
-            <img
-              onClick={() => {
-                setAccClicked(!accClicked);
-                console.log(accClicked);
-              }}
-              className="userImg"
-              src={accClicked ? "/user-blue.png" : "/user.png"}
-              alt=""
-            />
-            <div className={`authDiv ${accClicked ? "show" : "hide"}`}>
+            <img className="userImg" src={"/user.png"} alt="" />
+            <div className={`authDiv`}>
               <Link to="/login">Login</Link>
               <Link to="/register">Register</Link>
             </div>

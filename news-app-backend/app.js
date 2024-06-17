@@ -36,13 +36,6 @@ function filterArticleWithoutDes(article) {
 
 
 
-app.get('/getUserDetails', (req,res) => {
-  try {
-    res.send("Got res")
-  } catch (error) {
-    console.log("Error : ", error);
-  }
-})
 
 
 app.get('/topTechHeadlines/:category/:country', (req, res) => {
@@ -115,6 +108,22 @@ app.post("/login", async (req, res) => {
     
   }
 })
+
+
+app.get('/getUser/:email', async (req, res) => {
+    try {
+      const email = req.params.email;
+      const fetchedUserData = await collection.findOne({email: email});
+      const userData = {name: fetchedUserData.name, email: fetchedUserData.email}
+      // console.log(fetchedUserData);
+      res.send({userData})
+    } catch (error) {
+      console.log(error);
+    }
+})
+
+
+
 
 
 

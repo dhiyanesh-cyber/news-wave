@@ -5,10 +5,11 @@ const CardComponent = (props) => {
   const title = props.title;
   const description = props.description;
   return (
-    <div className="Custom-card">
+    <div suppressHydrationWarning className="Custom-card">
       <div className="container-card bg-blue-box">
+       
         <defs>
-          <linearGradient
+          <lineargradient
             id="paint0_linear_1366_4565"
             x1="0"
             y1="0"
@@ -19,8 +20,8 @@ const CardComponent = (props) => {
             <stop stopColor="white" stopOpacity="0.7"></stop>
             <stop offset="0.505208" stopColor="white" stopOpacity="0"></stop>
             <stop offset="1" stopColor="white" stopOpacity="0.7"></stop>
-          </linearGradient>
-          <radialGradient
+          </lineargradient>
+          <radialgradient
             id="paint1_radial_1366_4565"
             cx="0"
             cy="0"
@@ -30,7 +31,7 @@ const CardComponent = (props) => {
           >
             <stop stopColor="white"></stop>
             <stop offset="1" stopColor="#363437" stopOpacity="0.2"></stop>
-          </radialGradient>
+          </radialgradient>
         </defs>
         <p className="card-title">{title}</p>
         <p className="card-description">{description}</p>

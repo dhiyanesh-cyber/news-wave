@@ -1,13 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import "../Authentication.css";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { AuthContext } from "../../../AuthProvider";
 
 const Login = () => {
-  const [userData, setUserData] = useState({
-    email: "",
-    password: "",
-  });
+  const { login } = useContext(AuthContext);
+  const [userData, setUserData] = useState({});
 
   function handleChange(e) {
     const value = e.target.value;
@@ -36,7 +35,8 @@ const Login = () => {
         console.log("Res status: ", res.status);
         if (res.status === 201) {
           alert(res.data.message);
-          
+          console.log();
+          login(userData.name, userData.email);
         }
       })
       .catch((error) => {
