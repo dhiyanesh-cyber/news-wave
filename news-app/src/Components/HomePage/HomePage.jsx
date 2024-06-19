@@ -62,98 +62,102 @@ const HomePage = () => {
   return (
     <div>
       <div className="HomeContainer">
-        <h2 className="TechNewsTitle">Hi, {user.name}</h2>
-        {/* Tech news */}
-        <div className="container">
-          <h2 className="TechNewsTitle">
-            Latest Innovations and Updates in Tech
-          </h2>
-          <div className="Carousel">
-            <div
-              className="Previmg"
-              onClick={() => {
-                handlePrevClick("tech");
-              }}
-            >
-              <img src="/Next1.png" alt="" />
-            </div>
-            <div className="gradient-cards gradient-cards-tech">
-              {techNews.map((item, index) => (
-                <CardComponent
-                  key={index}
-                  title={item.title}
-                  description={item.description}
-                />
-              ))}
-            </div>
-            <div
-              className="Nextimg"
-              onClick={() => {
-                handleNextClick("tech");
-              }}
-            >
-              <img src="/Next1.png" alt="" />
-            </div>
-          </div>
-        </div>
-        {/* Tech news */}
-        <div className="container">
-          <h2 className="TechNewsTitle">Top Sports News and Updates</h2>
-          <div className="Carousel">
-            <div
-              className="Previmg"
-              onClick={() => {
-                handlePrevClick("sports");
-              }}
-            >
-              <img src="/Next1.png" alt="" />
-            </div>
-            <div className="gradient-cards gradient-cards-sports">
-              {sportsNews.map((item, index) => (
-                <CardComponent
-                  key={index}
-                  title={item.title}
-                  description={item.description}
-                />
-              ))}
-            </div>
-            <div
-              className="Nextimg"
-              onClick={() => {
-                handleNextClick("sports");
-              }}
-            >
-              <img src="/Next1.png" alt="" />
+        <div className="userWelcomeDiv">{user.name ?  <h2 className="TechNewsTitle">Hi, {user.name}</h2> : <></>}</div>
+       
+        <div className="newsCarouselsDiv">
+          {/* Tech news */}
+          <div className="container">
+            <h2 className="TechNewsTitle">
+              Latest Innovations and Updates in Tech
+            </h2>
+            <div className="Carousel">
+              <div
+                className="Previmg"
+                onClick={() => {
+                  handlePrevClick("tech");
+                }}
+              >
+                <img src="/Next1.png" alt="" />
+              </div>
+              <div className="gradient-cards gradient-cards-tech">
+                {techNews.map((item, index) => (
+                  <CardComponent
+                    key={index}
+                    title={item.title}
+                    description={item.description}
+                  />
+                ))}
+              </div>
+              <div
+                className="Nextimg"
+                onClick={() => {
+                  handleNextClick("tech");
+                }}
+              >
+                <img src="/Next1.png" alt="" />
+              </div>
             </div>
           </div>
-        </div>
-        <div className="container">
-          <h2 className="TechNewsTitle">The Latest Cinema News</h2>
-          <div className="Carousel">
-            <div
-              className="Previmg"
-              onClick={() => {
-                handlePrevClick("cinema");
-              }}
-            >
-              <img src="/Next1.png" alt="" />
+          {/* Sports news */}
+          <div className="container">
+            <h2 className="TechNewsTitle">Top Sports News and Updates</h2>
+            <div className="Carousel">
+              <div
+                className="Previmg"
+                onClick={() => {
+                  handlePrevClick("sports");
+                }}
+              >
+                <img src="/Next1.png" alt="" />
+              </div>
+              <div className="gradient-cards gradient-cards-sports">
+                {sportsNews.map((item, index) => (
+                  <CardComponent
+                    key={index}
+                    title={item.title}
+                    description={item.description}
+                  />
+                ))}
+              </div>
+              <div
+                className="Nextimg"
+                onClick={() => {
+                  handleNextClick("sports");
+                }}
+              >
+                <img src="/Next1.png" alt="" />
+              </div>
             </div>
-            <div className="gradient-cards gradient-cards-cinema">
-              {entertainmentNews.map((item, index) => (
-                <CardComponent
-                  key={index}
-                  title={item.title}
-                  description={item.description}
-                />
-              ))}
-            </div>
-            <div
-              className="Nextimg"
-              onClick={() => {
-                handleNextClick("cinema");
-              }}
-            >
-              <img src="/Next1.png" alt="" />
+          </div>
+          {/* Cinema news */}
+          <div className="container">
+            <h2 className="TechNewsTitle">The Latest Cinema News</h2>
+            <div className="Carousel">
+              <div
+                className="Previmg"
+                onClick={() => {
+                  handlePrevClick("cinema");
+                }}
+              >
+                <img src="/Next1.png" alt="" />
+              </div>
+              <div className="gradient-cards gradient-cards-cinema">
+                {entertainmentNews.map((item, index) => (
+                  <CardComponent
+                    key={index}
+                    title={item.title}
+                    description={item.description}
+                  />
+                ))}
+              </div>
+              <div
+                className="Nextimg"
+                onClick={() => {
+                  handleNextClick("cinema");
+                }}
+              >
+                <img src="/Next1.png" alt="" />
+              </div>
             </div>
           </div>
         </div>

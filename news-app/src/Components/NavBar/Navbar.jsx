@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "./Navbar.css";
+import Logout from "../Authentication/Logout";
 
 const Navbar = () => {
   return (
@@ -16,6 +17,7 @@ const Navbar = () => {
             <div className={`authDiv`}>
               <Link to="/login">Login</Link>
               <Link to="/register">Register</Link>
+              <Logout />
             </div>
           </div>
         </div>

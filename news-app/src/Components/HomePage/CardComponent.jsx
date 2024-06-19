@@ -6,7 +6,7 @@ const CardComponent = (props) => {
   const description = props.description;
   return (
     <div suppressHydrationWarning className="Custom-card">
-      <div className="container-card bg-blue-box">
+      <div className="container-card bg-white-box">
        
         <defs>
           <lineargradient

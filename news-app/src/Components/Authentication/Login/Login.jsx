@@ -1,10 +1,11 @@
 import React, { useContext, useState } from "react";
 import "../Authentication.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../AuthProvider";
 
 const Login = () => {
+  const navigate = useNavigate()
   const { login } = useContext(AuthContext);
   const [userData, setUserData] = useState({});
 
@@ -35,6 +36,7 @@ const Login = () => {
         console.log("Res status: ", res.status);
         if (res.status === 201) {
           alert(res.data.message);
+          navigate('/')
           console.log();
           login(userData.name, userData.email);
         }
