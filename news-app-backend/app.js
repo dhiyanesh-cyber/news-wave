@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt';
 import dotenv from 'dotenv'
 import nodemailer from 'nodemailer';
 import jwt from 'jsonwebtoken';
-import {Token} from './models/token.js';
+import { Token } from './models/token.js';
 import sendEmail from './sendEmail.js'
 dotenv.config();
 
@@ -53,20 +53,32 @@ app.get('/topTechHeadlines/:category/:country', (req, res) => {
     newsapi.v2.topHeadlines({
       category: category,
       from: yesterday.toISOString().split('T')[0],
-                            to: today.toISOString().split('T')[0],
-                            language: 'en',
-                            country: country
+      to: today.toISOString().split('T')[0],
+      language: 'en',
+      country: country
     }).then(response => {
       const filteredArticle = response.articles.filter(filterArticleWithoutDes)
       res.send(filteredArticle);
     })
-    .catch(error => {
-      console.log("error : ", error);
-    });
+      .catch(error => {
+        console.log("error : ", error);
+      });
   } catch (error) {
     console.log("error : ", error);
   }
 });
+
+
+async function emailVerification(userData){
+  const token = await new Token({
+    userId: userData._id,
+    token: crypto.randomBytes(32).toString("hex")
+  }).save();
+  console.log("Token : ", token);
+
+  const url = `http://localhost:3000/users/${userData._id}/verify/${token.token}`
+  await sendEmail(userData.email, "Verify Email", url)
+}
 
 
 
@@ -86,14 +98,7 @@ app.post('/register', async (req, res) => {
       console.log("Registered data", data);
       const [userData] = await collection.insertMany([data]);
       console.log("User data: ", userData);
-      const token = await new Token({
-        userId: userData._id,
-        token: crypto.randomBytes(32).toString("hex")
-      }).save() ;
-      console.log("Token : ", token);
-
-      const url = `http://localhost:3000/users/${userData._id}/verify/${token.token}`
-      await sendEmail(userData.email, "Verify Email", url)
+      await emailVerification(userData);
       console.log("User data: ", userData.name);
       res.status(201).json({ message: "Verification mail sent to user email." });
     }
@@ -118,8 +123,15 @@ app.post("/login", async (req, res) => {
     }
 
     const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
+
+    const verified = check.verified;
     if (isPasswordMatch) {
-      res.status(201).json({ message: "Login successfull." });
+      if(verified){
+        res.status(201).json({ message: "Login successfull." });
+      }else{
+        res.status(409).json({message: "User email id is not verified"})
+      }
+      
     } else {
       res.status(409).json({ message: "Wrong Password" });
     }
@@ -141,27 +153,27 @@ app.get('/getUser/:email', async (req, res) => {
 })
 
 
-app.get('/users/:id/verify/:token', async(req, res) => {
+app.get('/users/:id/verify/:token', async (req, res) => {
   try {
-    const user = await collection.findOne({_id : req.params.id})
-    if(!user) return res.status(400).send({message: "Invalid link"})
+    const user = await collection.findOne({ _id: req.params.id })
+    if (!user) return res.status(400).send({ message: "Invalid link" })
 
-      const token = await Token.findOne({
-        userId: user._id,
-        token: req.params.token
-      })
+    const token = await Token.findOne({
+      userId: user._id,
+      token: req.params.token
+    })
 
-      if(!token) return res.status(400).send({message: "Invalid link"})
+    if (!token) return res.status(400).send({ message: "Invalid link" })
 
-        const filter = {_id: user._id};
-        const updatedDoc = {
-          $set:{verified: true}
-        }
-        await collection.updateOne(filter, updatedDoc)
+    const filter = { _id: user._id };
+    const updatedDoc = {
+      $set: { verified: true }
+    }
+    await collection.updateOne(filter, updatedDoc)
 
-        res.status(200).send({message: "Email verified successfully"})
+    res.status(200).send({ message: "Email verified successfully" })
   } catch (error) {
-    res.status(400).send({message: `Internal server error : ${error}`})
+    res.status(400).send({ message: `Internal server error : ${error}` })
   }
 })
 
