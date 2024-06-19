@@ -63,7 +63,7 @@ const HomePage = () => {
     <div>
       <div className="HomeContainer">
         <div className="userWelcomeDiv">{user.name ?  <h2 className="TechNewsTitle">Hi, {user.name}</h2> : <></>}</div>
-       
+
         <div className="newsCarouselsDiv">
           {/* Tech news */}
           <div className="container">
@@ -77,7 +77,7 @@ const HomePage = () => {
                   handlePrevClick("tech");
                 }}
               >
-                <img src="/Next1.png" alt="" />
+                <img src="/arrowhead.png" alt="" />
               </div>
               <div className="gradient-cards gradient-cards-tech">
                 {techNews.map((item, index) => (
@@ -94,7 +94,7 @@ const HomePage = () => {
                   handleNextClick("tech");
                 }}
               >
-                <img src="/Next1.png" alt="" />
+                <img src="/arrowhead.png" alt="" />
               </div>
             </div>
           </div>
@@ -108,7 +108,7 @@ const HomePage = () => {
                   handlePrevClick("sports");
                 }}
               >
-                <img src="/Next1.png" alt="" />
+                <img src="/arrowhead.png" alt="" />
               </div>
               <div className="gradient-cards gradient-cards-sports">
                 {sportsNews.map((item, index) => (
@@ -125,7 +125,7 @@ const HomePage = () => {
                   handleNextClick("sports");
                 }}
               >
-                <img src="/Next1.png" alt="" />
+                <img src="/arrowhead.png" alt="" />
               </div>
             </div>
           </div>
@@ -139,7 +139,7 @@ const HomePage = () => {
                   handlePrevClick("cinema");
                 }}
               >
-                <img src="/Next1.png" alt="" />
+                <img src="/arrowhead.png" alt="" />
               </div>
               <div className="gradient-cards gradient-cards-cinema">
                 {entertainmentNews.map((item, index) => (
@@ -156,7 +156,7 @@ const HomePage = () => {
                   handleNextClick("cinema");
                 }}
               >
-                <img src="/Next1.png" alt="" />
+                <img src="/arrowhead.png" alt="" />
               </div>
             </div>
           </div>

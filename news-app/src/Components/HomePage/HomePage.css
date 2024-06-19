@@ -99,12 +99,19 @@ hr {
   /* border: 1px solid #ffffff3b; */
   padding: 10px;
   border-radius: 50%;
-  background: linear-gradient(71deg, #19485b, #36819f, #35809e);
+  /* background: linear-gradient(71deg, #19485b, #36819f, #35809e); */
+  /* background: linear-gradient(to bottom left, #FFC107 20%, #C43CC4 40%, #673AB7 70%); */
 }
 
 .Previmg img,
 .Nextimg img {
-  height: 20px;
+  height: 40px;
+  transition: transform 0.2s ease-in-out;
+}
+
+.Previmg img:hover,
+.Nextimg img:hover {
+  transform: translateX(10px);
 }
 
 .Nextimg {
@@ -115,13 +122,15 @@ hr {
   /* border: 1px solid #ffffff3b; */
   padding: 10px;
   border-radius: 50%;
-  background: linear-gradient(71deg, #19485b, #36819f, #35809e);
+  /* background: linear-gradient(71deg, #19485b, #36819f, #35809e); */
 }
 
 .Carousel {
+  position: relative;
   max-width: 1320px !important;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
 }
+

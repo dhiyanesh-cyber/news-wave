@@ -8,12 +8,10 @@
   width: 100%;
   position: relative;
   background: linear-gradient(180deg, transparent 100%, rgba(0, 0, 0, 0.3)),
-    linear-gradient(
-      160deg,
+    linear-gradient(160deg,
       rgba(20, 20, 20, 0.458) 0.09%,
       #0e0e0e 50.18%,
-      #1d1d1d94 100.64%
-    );
+      #1d1d1d94 100.64%);
   color: #cdcdcd;
   display: flex;
   flex-direction: row;
@@ -77,29 +75,53 @@
   display: flex;
 }
 
+
+
 .NavBar .authDiv {
+  background: transparent;
+  display: flex;
+  border: none;
+  border-radius: 20px;
+  /* Ensures the border-radius is applied correctly */
+  position: relative;
   z-index: 2;
-  display: none;
   opacity: 0;
   gap: 15px;
   flex-direction: column;
   justify-content: center;
   align-items: start;
-  border-radius: 15px;
   background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.898)),
-    linear-gradient(
-      160deg,
+    linear-gradient(160deg,
       rgba(20, 20, 20, 0.781) 0.09%,
       #0e0e0e 50.18%,
-      #1d1d1de1 100.64%
-    );
-  border: 1px solid rgba(255, 255, 255, 0.19);
+      #1d1d1de1 100.64%);
   height: fit-content;
   padding: 20px 40px;
   position: absolute;
   top: 50px;
   right: -70px;
   transition: opacity 0.3s ease-in-out;
+}
+
+.authDiv::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 20px;
+
+  /* Adjust width */
+  padding: 1px;
+  background: linear-gradient(to bottom right, #FFC107, #FF00FF, #673AB7);
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: destination-out;
+  mask-composite: exclude;
+  /* Makes the background visible only on the border */
+  z-index: -1;
 }
 
 .authDiv a {
