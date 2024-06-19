@@ -1,26 +1,34 @@
 import NewsAPI from 'newsapi';
 import express, { urlencoded } from 'express';
 import cors from 'cors';
-import collection from './config.js';
+import crypto from 'crypto';
+import collection from './models/config.js';
 import bcrypt from 'bcrypt';
 import dotenv from 'dotenv'
+import nodemailer from 'nodemailer';
+import jwt from 'jsonwebtoken';
+import {Token} from './models/token.js';
+import sendEmail from './sendEmail.js'
 dotenv.config();
 
 
 const newsApiKey = process.env.NEWS_API;
 const newsapi = new NewsAPI(newsApiKey);
+const EMAIL_SECRET = "9c1a224103f8ebe30c4594b176c9c5de98b750c0536feb924151c0199bde8a35";
 
 
 const app = express();
-app.use(express.json()); 
-app.use(express.urlencoded({extended: false}));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+
 
 
 const port = 3000;
 const date = new Date();
 
 
-//
+
 let today = date;
 let yesterday = new Date(date);
 yesterday.setDate(yesterday.getDate() - 7);
@@ -45,16 +53,16 @@ app.get('/topTechHeadlines/:category/:country', (req, res) => {
     newsapi.v2.topHeadlines({
       category: category,
       from: yesterday.toISOString().split('T')[0],
-      to: today.toISOString().split('T')[0],
-      language: 'en',
-      country: country
+                            to: today.toISOString().split('T')[0],
+                            language: 'en',
+                            country: country
     }).then(response => {
       const filteredArticle = response.articles.filter(filterArticleWithoutDes)
       res.send(filteredArticle);
     })
-      .catch(error => {
-        console.log("error : ", error);
-      });
+    .catch(error => {
+      console.log("error : ", error);
+    });
   } catch (error) {
     console.log("error : ", error);
   }
@@ -65,23 +73,34 @@ app.get('/topTechHeadlines/:category/:country', (req, res) => {
 //Post Request for User registration
 app.post('/register', async (req, res) => {
   try {
-    const data = req.body;
-    const existingUser = await collection.findOne({email: data.email})
 
-    if(existingUser){
+    const data = req.body;
+    const existingUser = await collection.findOne({ email: data.email })
+
+    if (existingUser) {
       res.status(409).json({ message: "User with this email id already exists, please try to register using another email." });
-    }else{
+    } else {
       const saltRounds = 10;
       const hashedPassword = await bcrypt.hash(data.password, saltRounds)
       data.password = hashedPassword;
-      const userData = await collection.insertMany(data);
+      console.log("Registered data", data);
+      const [userData] = await collection.insertMany([data]);
       console.log("User data: ", userData);
-      res.status(201).json({ message: "User registered successfully." });
+      const token = await new Token({
+        userId: userData._id,
+        token: crypto.randomBytes(32).toString("hex")
+      }).save() ;
+      console.log("Token : ", token);
+
+      const url = `http://localhost:3000/users/${userData._id}/verify/${token.token}`
+      await sendEmail(userData.email, "Verify Email", url)
+      console.log("User data: ", userData.name);
+      res.status(201).json({ message: "Verification mail sent to user email." });
     }
 
-    
+
   } catch (error) {
-    console.log("Error while post req:" , error);
+    console.log("Error while post req:", error);
     res.status(500).json({ message: "An error occurred while processing the request." });
 
   }
@@ -93,7 +112,7 @@ app.post('/register', async (req, res) => {
 app.post("/login", async (req, res) => {
   //check whether user with this email exist or not.
   try {
-    const check = await collection.findOne({email: req.body.email})
+    const check = await collection.findOne({ email: req.body.email })
     if (!check) {
       res.status(409).json({ message: "User with this email id does not exists." });
     }
@@ -101,25 +120,49 @@ app.post("/login", async (req, res) => {
     const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
     if (isPasswordMatch) {
       res.status(201).json({ message: "Login successfull." });
-    }else{
+    } else {
       res.status(409).json({ message: "Wrong Password" });
     }
   } catch (error) {
-    
+
   }
 })
 
 
 app.get('/getUser/:email', async (req, res) => {
-    try {
-      const email = req.params.email;
-      const fetchedUserData = await collection.findOne({email: email});
-      const userData = {name: fetchedUserData.name, email: fetchedUserData.email}
-      // console.log(fetchedUserData);
-      res.send({userData})
-    } catch (error) {
-      console.log(error);
-    }
+  try {
+    const email = req.params.email;
+    const fetchedUserData = await collection.findOne({ email: email });
+    const userData = { name: fetchedUserData.name, email: fetchedUserData.email }
+    res.send({ userData })
+  } catch (error) {
+    console.log(error);
+  }
+})
+
+
+app.get('/users/:id/verify/:token', async(req, res) => {
+  try {
+    const user = await collection.findOne({_id : req.params.id})
+    if(!user) return res.status(400).send({message: "Invalid link"})
+
+      const token = await Token.findOne({
+        userId: user._id,
+        token: req.params.token
+      })
+
+      if(!token) return res.status(400).send({message: "Invalid link"})
+
+        const filter = {_id: user._id};
+        const updatedDoc = {
+          $set:{verified: true}
+        }
+        await collection.updateOne(filter, updatedDoc)
+
+        res.status(200).send({message: "Email verified successfully"})
+  } catch (error) {
+    res.status(400).send({message: `Internal server error : ${error}`})
+  }
 })
 
 
