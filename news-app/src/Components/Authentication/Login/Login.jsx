@@ -3,11 +3,13 @@ import "../Authentication.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { AuthContext } from "../../../AuthProvider";
+import EmailUnverifiedComp from "../EmailUnverifiedComp";
 
 const Login = () => {
   const navigate = useNavigate()
   const { login } = useContext(AuthContext);
   const [userData, setUserData] = useState({});
+  const [showEmailVerificationPopup, setShowEmailVerificationPopup] = useState(false);
 
   function handleChange(e) {
     const value = e.target.value;
@@ -42,8 +44,12 @@ const Login = () => {
         }
       })
       .catch((error) => {
-        if (error.response.status === 409) {
-          alert(error.response.data.message);
+        if (error.response.status === 509) {
+          setShowEmailVerificationPopup(true)
+          document.getElementById('login').classList.add("blur")
+          document.getElementById('nav').classList.add('blur')
+        } else if (error.response.status === 409) {
+          alert(error.response.data.message)
         } else {
           alert("An error occurred while processing the request.");
         }
@@ -52,7 +58,8 @@ const Login = () => {
 
   return (
     <div className="AuthticationMainDiv">
-      <div className="form login">
+
+      <div id="login" className="form login">
         <div className="form-content">
           <header>Login</header>
           <form action="#">
@@ -96,6 +103,12 @@ const Login = () => {
           </div>
         </div>
       </div>
+      {showEmailVerificationPopup && <EmailUnverifiedComp onClose={() => {
+        setShowEmailVerificationPopup(false)
+        document.getElementById('login').classList.remove("blur")
+        document.getElementById('nav').classList.remove("blur")
+      }} id='emailUnverified' message="Email unverified" userData={userData} />}
+
     </div>
   );
 };

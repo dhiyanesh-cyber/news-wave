@@ -8,6 +8,10 @@
   font-family: "Poppins", sans-serif;
 }
 
+.blur{
+  filter: blur(17px);
+}
+
 .form {
   max-width: 430px;
   width: 100%;
@@ -151,6 +155,89 @@ a.google span {
   align-items: center;
 }
 
+
+.emailUnverified{
+  opacity: 0;
+  display: flex;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  background-color: rgba(0, 0, 0, 0.575);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+
+
+
+.emailUnverifiedDiv{
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 15px 25px, rgba(0, 0, 0, 0.05) 0px 5px 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-wrap: wrap;  
+  height: fit-content;
+  width: fit-content;
+  min-width: 400px;
+  min-height: 300px;
+  background: linear-gradient(130deg, #ffffff, #cfcfcf, #a7a6a6);
+  border-radius: 30px;
+  color: black;
+  padding: 20px 40px;
+}
+
+.show{
+  opacity: 1 !important;
+  display: flex !important;
+}
+
+.emailUnverifiedDiv p{
+  color: rgba(0, 0, 0, 0.772);
+}
+
+.emailUnverifiedDiv .closeBtn{
+  cursor: pointer;
+  height: 30px;
+}
+
+.emailUnverifiedDiv button{
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 13px 23px;
+  border: 1px solid #222222;;
+  background: #2e2e2e;
+  color: #dbdbdb;
+  transition: all 0.2s;
+}
+
+.emailUnverifiedDiv button:hover{
+    background: #191919;
+    color: #dbdbdb;
+}
+
+
+.emailUnverifiedDiv .closeBtn{
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+
+.emailUnverifiedDiv img{
+  height: 60px;
+}
 @media screen and (max-width: 400px) {
   .form {
     padding: 20px 10px;

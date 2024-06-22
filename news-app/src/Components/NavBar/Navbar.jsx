@@ -5,7 +5,7 @@ import Logout from "../Authentication/Logout";
 
 const Navbar = () => {
   return (
-    <div className="NavBarOuter">
+    <div id="nav" className="NavBarOuter">
       <div className="NavBar">
         <div className="NavItems">
           <Link to="/">Home</Link>

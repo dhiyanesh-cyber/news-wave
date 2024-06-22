@@ -69,7 +69,8 @@ app.get('/topTechHeadlines/:category/:country', (req, res) => {
 });
 
 
-async function emailVerification(userData){
+async function emailVerification(userData) {
+
   const token = await new Token({
     userId: userData._id,
     token: crypto.randomBytes(32).toString("hex")
@@ -79,6 +80,24 @@ async function emailVerification(userData){
   const url = `http://localhost:3000/users/${userData._id}/verify/${token.token}`
   await sendEmail(userData.email, "Verify Email", url)
 }
+
+
+app.post('/resendEmailVerification', async (req, res) => {
+
+  try {
+    const data = req.body;
+    const userData = await collection.findOne({ email: data.email });
+
+    console.log("Fetched user data : ", userData );
+
+    await emailVerification(userData);
+
+    res.status(201).json({ mesasge: "Verification mail sent to user email." })
+  } catch (error) {
+    console.log("Resend err: ",error);
+    res.status(500).json({ message: "An error occurred while processing the request." });
+  }
+})
 
 
 
@@ -123,15 +142,15 @@ app.post("/login", async (req, res) => {
     }
 
     const isPasswordMatch = await bcrypt.compare(req.body.password, check.password);
-
     const verified = check.verified;
+
     if (isPasswordMatch) {
-      if(verified){
+      if (verified) {
         res.status(201).json({ message: "Login successfull." });
-      }else{
-        res.status(409).json({message: "User email id is not verified"})
+      } else {
+        res.status(509).json({ message: "User email id is not verified" })
       }
-      
+
     } else {
       res.status(409).json({ message: "Wrong Password" });
     }
@@ -154,28 +173,50 @@ app.get('/getUser/:email', async (req, res) => {
 
 
 app.get('/users/:id/verify/:token', async (req, res) => {
+  const htmlContent = `
+    <div>
+      <button id="verifyButton">Click to verify email</button>
+      <script>
+        document.getElementById('verifyButton').addEventListener('click', async () => {
+          try {
+            const user = await fetch('/users/${req.params.id}/verify/${req.params.token}', {
+              method: 'POST',
+            }).then(res => res.json());
+            alert(user.message);
+          } catch (error) {
+            alert(error.message);
+          }
+        });
+      </script>
+    </div>
+  `;
+  res.status(200).send(htmlContent);
+});
+
+app.post('/users/:id/verify/:token', async (req, res) => {
   try {
-    const user = await collection.findOne({ _id: req.params.id })
-    if (!user) return res.status(400).send({ message: "Invalid link" })
+    const user = await collection.findOne({ _id: req.params.id });
+    if (!user) return res.status(400).send({ message: "Invalid link" });
 
     const token = await Token.findOne({
       userId: user._id,
       token: req.params.token
-    })
+    });
 
-    if (!token) return res.status(400).send({ message: "Invalid link" })
+    if (!token) return res.status(400).send({ message: "Invalid link" });
 
     const filter = { _id: user._id };
     const updatedDoc = {
       $set: { verified: true }
-    }
-    await collection.updateOne(filter, updatedDoc)
+    };
+    await collection.updateOne(filter, updatedDoc);
 
-    res.status(200).send({ message: "Email verified successfully" })
+    res.status(200).send({ message: "Email verified successfully" });
   } catch (error) {
-    res.status(400).send({ message: `Internal server error : ${error}` })
+    res.status(400).send({ message: `Internal server error : ${error}` });
   }
-})
+});
+
 
 
 
