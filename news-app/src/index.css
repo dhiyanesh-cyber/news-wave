@@ -4,13 +4,3 @@ body {
   min-height: 100svh;
 }
 
-::-moz-selection {
-  /* Code for Firefox */
-  color: #195b3fbd;
-  background: #206c4c9b;
-}
-
-::selection {
-  color: #20bac4;
-  background: #17292a;
-}

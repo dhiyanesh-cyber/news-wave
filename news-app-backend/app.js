@@ -88,13 +88,13 @@ app.post('/resendEmailVerification', async (req, res) => {
     const data = req.body;
     const userData = await collection.findOne({ email: data.email });
 
-    console.log("Fetched user data : ", userData );
+    console.log("Fetched user data : ", userData);
 
     await emailVerification(userData);
 
     res.status(201).json({ mesasge: "Verification mail sent to user email." })
   } catch (error) {
-    console.log("Resend err: ",error);
+    console.log("Resend err: ", error);
     res.status(500).json({ message: "An error occurred while processing the request." });
   }
 })
@@ -174,21 +174,38 @@ app.get('/getUser/:email', async (req, res) => {
 
 app.get('/users/:id/verify/:token', async (req, res) => {
   const htmlContent = `
-    <div>
-      <button id="verifyButton">Click to verify email</button>
-      <script>
+   <div style="display: flex;
+flex-direction: column;
+justify-content: flex-start;
+height: 100%;
+align-items: center;
+">
+    
+    <button style=" display: flex;
+    outline: none;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 20px;
+    font-weight: 600;
+    border-radius: 8px;
+    padding: 13px 23px;
+    margin-top: 100px;
+    border: 1px solid #222222;;
+    background: #2e2e2e;
+    color: #dbdbdb;" id="verifyButton">Click to verify email</button>
+    <script>
         document.getElementById('verifyButton').addEventListener('click', async () => {
-          try {
-            const user = await fetch('/users/${req.params.id}/verify/${req.params.token}', {
-              method: 'POST',
-            }).then(res => res.json());
-            alert(user.message);
-          } catch (error) {
-            alert(error.message);
-          }
+            try {
+                const user = await fetch('/users/${req.params.id}/verify/${req.params.token}', {
+                    method: 'POST',
+                }).then(res => res.json());
+                alert(user.message);
+            } catch (error) {
+                alert(error.message);
+            }
         });
-      </script>
-    </div>
+    </script>
+</div>
   `;
   res.status(200).send(htmlContent);
 });

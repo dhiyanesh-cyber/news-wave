@@ -3,20 +3,20 @@ import axios from "axios";
 import "./HomePage.css";
 import CardComponent from "./CardComponent";
 import { AuthContext } from "../../AuthProvider";
+import { useNavigate } from "react-router-dom";
 
 const HomePage = () => {
   const { user, isLoggedIn } = useContext(AuthContext);
   const [techNews, setTechNews] = useState([]);
   const [sportsNews, setSportsNews] = useState([]);
   const [entertainmentNews, setEntertainmentNews] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    console.log(isLoggedIn);
     axios
       .get("http://localhost:3000/topTechHeadlines/technology/us")
       .then((res) => {
         setTechNews(res.data);
-        console.log("Data: ", res.data);
       })
       .catch((err) => {
         console.log("Error: ", err);
@@ -26,7 +26,6 @@ const HomePage = () => {
       .get("http://localhost:3000/topTechHeadlines/sports/in")
       .then((res) => {
         setSportsNews(res.data);
-        console.log("Data: ", res.data);
       })
       .catch((err) => {
         console.log("Error: ", err);
@@ -59,10 +58,18 @@ const HomePage = () => {
     });
   };
 
+  // if(user.name == ''){
+  //   navigate('/login')
+  // }
+
+
+
   return (
+
+
     <div>
       <div className="HomeContainer">
-        <div className="userWelcomeDiv">{user.name ?  <h2 className="TechNewsTitle">Hi, {user.name}</h2> : <></>}</div>
+        <div className="userWelcomeDiv">{user.name ? <h2>Hi, {user.name}</h2> : <></>}</div>
 
         <div className="newsCarouselsDiv">
           {/* Tech news */}
